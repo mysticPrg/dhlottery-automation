@@ -14,7 +14,7 @@ on:
           - "5"
         default: "5"
 jobs:
-  test:
+  buy-lotto:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
