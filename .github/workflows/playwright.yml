@@ -1,5 +1,7 @@
 name: Playwright Tests
 on:
+  schedule:
+    - cron: "0 10 * * 5"
   workflow_dispatch:
     inputs:
       amount: 
@@ -30,5 +32,5 @@ jobs:
       env:
         USER_ID: ${{ secrets.ID }}
         USER_PW: ${{ secrets.PASSWORD }}
-        AMOUNT: ${{ inputs.amount }}
+        AMOUNT: ${{ inputs.amount || '5' }}
       run: yarn ci
