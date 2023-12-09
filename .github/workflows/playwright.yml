@@ -1,4 +1,4 @@
-name: Buy lotto
+name: 복권 구매
 on:
   schedule:
     - cron: '0 10 * * 5'
@@ -24,7 +24,7 @@ on:
           - 'false'
         default: 'true'
 jobs:
-  buy-lotto:
+  buy-lottery:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
