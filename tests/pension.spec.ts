@@ -21,9 +21,13 @@ async function buy(page: Page, smoke: boolean) {
   await waitLoading(page)
 
   await page.locator('.lotto720_btn_auto_number').click()
+  await page.waitForTimeout(2000)
+
   await page.locator('.lotto720_btn_confirm_number').click()
+  await page.waitForTimeout(2000)
 
   await page.locator('.lotto720_btn_pay').click()
+  await page.waitForTimeout(1000)
 
   const text = smoke ? '취소' : '구매하기'
   await page.locator('#lotto720_popup_confirm').getByText(text).click()
