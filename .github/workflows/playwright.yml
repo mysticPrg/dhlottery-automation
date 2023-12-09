@@ -2,16 +2,17 @@ name: Playwright Tests
 on:
   workflow_dispatch:
     inputs:
-      name: "amount"
-      description: "복권 구매 수량"
-      required: true
-      options:
-        - "1"
-        - "2"
-        - "3"
-        - "4"
-        - "5"
-      default: "5"
+      amount: 
+        type: "choice"
+        description: "복권 구매 수량"
+        required: true
+        options:
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+        default: "5"
 jobs:
   test:
     timeout-minutes: 5
@@ -29,5 +30,5 @@ jobs:
       env:
         USER_ID: ${{ secrets.ID }}
         USER_PW: ${{ secrets.PASSWORD }}
-        AMOUNT: ${{ vars.AMOUNT }}
+        AMOUNT: ${{ inputs.amount }}
       run: yarn ci
