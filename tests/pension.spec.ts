@@ -4,21 +4,19 @@ import { login, waitLoading } from './utils'
 test('연금복권 구매', async ({ page }) => {
   const id = process.env.USER_ID
   const password = process.env.USER_PW
-  const amount = process.env.AMOUNT
   const smoke = process.env.SMOKE === 'true'
-  if (!id || !password || !amount) {
+  if (!id || !password) {
     return
   }
 
   expect(id).not.toBeFalsy()
   expect(password).not.toBeFalsy()
-  expect(parseInt(amount)).not.toBeNaN()
 
   await login(page, id, password)
-  await buy(page, parseInt(amount), smoke)
+  await buy(page, smoke)
 })
 
-async function buy(page: Page, amount: number, smoke: boolean) {
+async function buy(page: Page, smoke: boolean) {
   await page.goto('https://el.dhlottery.co.kr/game/pension720/game.jsp')
   await waitLoading(page)
 
