@@ -56,6 +56,8 @@ function getRandomNumbers() {
 }
 
 async function buyLotto(page: Page, amount: number) {
+    await page.waitForEvent('frameattached');
+    
     const frame = page.frameLocator('#ifrm_tab');
     const numbers = getRandomNumbers()
 
