@@ -58,6 +58,8 @@ function getRandomNumbers() {
 async function buyLotto(page: Page, amount: number, smoke: boolean) {
     const frame = page.frameLocator('#ifrm_tab');
     const numbers = getRandomNumbers()
+    
+    page.waitForTimeout(2000);
 
     for (const num of numbers) {
         await frame.locator(`label[for="check645num${num}"]`).click();
