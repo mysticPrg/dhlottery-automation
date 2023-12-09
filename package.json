@@ -11,7 +11,7 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "bg": "playwright test",
+    "ci": "playwright test",
     "ui": "playwright test --ui"
   }
 }
