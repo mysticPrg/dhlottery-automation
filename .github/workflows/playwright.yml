@@ -6,7 +6,7 @@ on:
     inputs:
       amount:
         type: 'choice'
-        description: '복권 구매 수량'
+        description: '로또복권 구매 수량'
         required: true
         options:
           - '1'
