@@ -10,5 +10,8 @@
     "@types/node": "^20.10.4",
     "typescript": "^5.3.3"
   },
-  "scripts": {}
+  "scripts": {
+    "bg": "playwright test",
+    "ui": "playwright test --ui"
+  }
 }
