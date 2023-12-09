@@ -1,6 +1,10 @@
 import { test, expect, Page } from '@playwright/test';
 
 test.describe('복권 구매 자동화', () => {
+    test.describe.configure({
+        mode: 'serial'
+    })
+    
     test('로또 구매', async ({ page }) => {
         const id = process.env.USER_ID;
         const password = process.env.USER_PW;
