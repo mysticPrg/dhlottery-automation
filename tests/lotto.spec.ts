@@ -29,6 +29,7 @@ function getRandomNumbers() {
 async function buyLotto(page: Page, amount: number, smoke: boolean) {
   await page.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do')
   await waitLoading(page)
+  await page.waitForSelector('label[for="check645num1"]')
 
   const numbers = getRandomNumbers()
 
