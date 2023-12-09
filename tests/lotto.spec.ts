@@ -31,6 +31,10 @@ async function buyLotto(page: Page, amount: number, smoke: boolean) {
   await waitLoading(page)
   await page.waitForSelector('label[for="check645num1"]')
 
+  if (await page.locator('#popupLayerAlert').isVisible()) {
+    await page.locator('#popupLayerAlert').getByText('확인').click()
+  }
+
   const numbers = getRandomNumbers()
 
   for (const num of numbers) {
