@@ -15,6 +15,14 @@ on:
           - "4"
           - "5"
         default: "5"
+      smoke:
+        type: "choice"
+        description: "실제 구매는 하지 않고 동작 확인만 수행"
+        required: true
+        options:
+          - "true"
+          - "false"
+        default: "true"
 jobs:
   buy-lotto:
     timeout-minutes: 5
@@ -33,4 +41,5 @@ jobs:
         USER_ID: ${{ secrets.ID }}
         USER_PW: ${{ secrets.PASSWORD }}
         AMOUNT: ${{ inputs.amount || '5' }}
+        SMOKE: ${{ inputs.smoke || 'false' }}
       run: yarn ci

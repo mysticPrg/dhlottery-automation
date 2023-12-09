@@ -1,11 +1,11 @@
 import { test, expect, Page } from '@playwright/test';
 
-const LOGIN_PAGE = '/user.do?method=login&returnUrl=';
 test.describe('복권 구매 자동화', () => {
     test('로또 구매', async ({ page }) => {
         const id = process.env.USER_ID;
         const password = process.env.USER_PW;
         const amount = process.env.AMOUNT;
+        const smoke = process.env.SMOKE === 'true'
         if (!id || !password || !amount) {
             return;
         }
@@ -16,7 +16,7 @@ test.describe('복권 구매 자동화', () => {
 
         await login(page, id, password);
         await gotoLottoPage(page);
-        await buyLotto(page, parseInt(amount));
+        await buyLotto(page, parseInt(amount), smoke);
     });
 })
 
@@ -55,9 +55,7 @@ function getRandomNumbers() {
         .sort((a, b) => (a - b));
 }
 
-async function buyLotto(page: Page, amount: number) {
-    await page.waitForEvent('frameattached');
-    
+async function buyLotto(page: Page, amount: number, smoke: boolean) {
     const frame = page.frameLocator('#ifrm_tab');
     const numbers = getRandomNumbers()
 
@@ -70,12 +68,14 @@ async function buyLotto(page: Page, amount: number) {
     await frame.locator('#btnSelectNum').click();
     await frame.locator('#btnBuy').click();
 
-    await frame.locator('#popupLayerConfirm').getByText('확인').click();
+    const text = smoke ? '취소' : '확인';
+    await frame.locator('#popupLayerConfirm').getByText(text).click();
 
     await page.waitForTimeout(1000);
 }
 
 async function waitLoading(page: Page) {
     await page.waitForLoadState('load');
-    await page.waitForLoadState('domcontentloaded')
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
 }
