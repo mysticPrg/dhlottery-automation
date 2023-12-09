@@ -19,7 +19,6 @@ test.describe('복권 구매 자동화', () => {
     expect(parseInt(amount)).not.toBeNaN()
 
     await login(page, id, password)
-    await gotoLottoPage(page)
     await buyLotto(page, parseInt(amount), smoke)
   })
 })
@@ -45,11 +44,6 @@ async function login(page: Page, id: string, password: string) {
   await waitLoading(page)
 }
 
-async function gotoLottoPage(page: Page) {
-  await page.goto('https://el.dhlottery.co.kr/game/TotalGame.jsp?LottoId=LO40')
-  await waitLoading(page)
-}
-
 function getRandomNumbers() {
   return Array.from({ length: 45 })
     .map((_, i) => i + 1)
@@ -59,10 +53,13 @@ function getRandomNumbers() {
 }
 
 async function buyLotto(page: Page, amount: number, smoke: boolean) {
+  await page.goto('https://el.dhlottery.co.kr/game/TotalGame.jsp?LottoId=LO40')
+  await waitLoading(page)
+
   const frame = page.frameLocator('#ifrm_tab')
   const numbers = getRandomNumbers()
 
-  await page.waitForTimeout(2000)
+  await page.waitForSelector('#ifrm_tab')
 
   for (const num of numbers) {
     await frame.locator(`label[for="check645num${num}"]`).click()
