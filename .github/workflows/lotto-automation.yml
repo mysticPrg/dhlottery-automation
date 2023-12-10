@@ -1,0 +1,51 @@
+name: 로또복권 구매
+on:
+  # schedule:
+  #   - cron: '0 1 * * 0'
+  workflow_dispatch:
+    inputs:
+      amount:
+        type: 'choice'
+        description: '로또복권 구매 수량'
+        required: true
+        options:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+        default: '5'
+      smoke:
+        type: 'choice'
+        description: '실제 구매는 하지 않고 동작 확인만 수행'
+        required: true
+        options:
+          - 'true'
+          - 'false'
+        default: 'true'
+jobs:
+  buy-lottery:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install -g yarn && yarn
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps
+      - name: Run
+        env:
+          USER_ID: ${{ secrets.ID }}
+          USER_PW: ${{ secrets.PASSWORD }}
+          AMOUNT: ${{ inputs.amount || '5' }}
+          SMOKE: ${{ inputs.smoke || 'false' }}
+        run: yarn ci -g lotto
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

@@ -1,20 +1,9 @@
-name: 복권 구매
+name: 연금복권 구매
 on:
-  schedule:
-    - cron: '0 1 * * 0'
+  # schedule:
+  #   - cron: '0 1 * * 0'
   workflow_dispatch:
     inputs:
-      amount:
-        type: 'choice'
-        description: '로또복권 구매 수량'
-        required: true
-        options:
-          - '1'
-          - '2'
-          - '3'
-          - '4'
-          - '5'
-        default: '5'
       smoke:
         type: 'choice'
         description: '실제 구매는 하지 않고 동작 확인만 수행'
@@ -40,9 +29,8 @@ jobs:
         env:
           USER_ID: ${{ secrets.ID }}
           USER_PW: ${{ secrets.PASSWORD }}
-          AMOUNT: ${{ inputs.amount || '5' }}
           SMOKE: ${{ inputs.smoke || 'false' }}
-        run: yarn ci
+        run: yarn ci -g pension
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
