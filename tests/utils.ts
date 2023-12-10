@@ -21,8 +21,13 @@ export async function login(page: Page, id: string, password: string) {
   await waitLoading(page)
 }
 
-export async function waitLoading(page: Page) {
+export async function waitLoading(
+  page: Page,
+  passNetworkIdle: boolean = false,
+) {
   await page.waitForLoadState('load')
   await page.waitForLoadState('domcontentloaded')
-  await page.waitForLoadState('networkidle')
+  if (!passNetworkIdle) {
+    await page.waitForLoadState('networkidle')
+  }
 }
