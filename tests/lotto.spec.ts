@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test'
 import { login, waitLoading } from './utils'
+import { getSelectedNumbers } from './numberSelector'
 
 test('로또 구매', async ({ page }) => {
   const id = process.env.USER_ID
@@ -18,14 +19,6 @@ test('로또 구매', async ({ page }) => {
   await buyLotto(page, parseInt(amount), smoke)
 })
 
-function getRandomNumbers() {
-  return Array.from({ length: 45 })
-    .map((_, i) => i + 1)
-    .sort(() => (Math.random() > 0.5 ? 1 : -1))
-    .slice(0, 6)
-    .sort((a, b) => a - b)
-}
-
 async function buyLotto(page: Page, amount: number, smoke: boolean) {
   await page.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do')
   await waitLoading(page)
@@ -35,7 +28,7 @@ async function buyLotto(page: Page, amount: number, smoke: boolean) {
     await page.locator('#popupLayerAlert').getByText('확인').click()
   }
 
-  const numbers = getRandomNumbers()
+  const numbers = getSelectedNumbers()
 
   for (const num of numbers) {
     await page.locator(`label[for="check645num${num}"]`).click()
