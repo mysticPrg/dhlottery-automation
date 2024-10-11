@@ -29,6 +29,7 @@ async function buyLotto(page: Page, amount: number, smoke: boolean) {
   }
 
   const numbers = getSelectedNumbers()
+  console.log({ numbers })
 
   for (const num of numbers) {
     await page.locator(`label[for="check645num${num}"]`).click()
